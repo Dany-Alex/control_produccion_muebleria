@@ -15,7 +15,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.jsp" onclick="loadIndex()">MI MUEBLERIA</a>
+                <a class="navbar-brand" href="index.jsp">MI MUEBLERIA</a>
             </div>
         </nav>
 
@@ -27,6 +27,13 @@
 
         </section>
 
+        
+        <a class="btn btn-info" href="View/Factory/factoyMenu.jsp">FABRICA</a>
+        <a class="btn btn-info" href="View/Sale/saleMenu.jsp">ventas</a>
+        <a class="btn btn-info" href="View/Admin/adminMenu.jsp">admin</a>
+
+
+        <script src="JS/indexFunctions.js" ></script> 
     </body>
-    <script src="JS/indexFunctions.js"></script> 
+    
 </html>

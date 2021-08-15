@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dxa.control_produccion_muebleria.Backend.Model.Clases;
 
 /**
@@ -13,12 +8,11 @@ public class piece {
 
     private String type;
     private double cost;
-    private int stock;
 
     public piece(String type, double cost, int stock) {
         this.type = type;
         this.cost = cost;
-        this.stock = stock;
+
     }
 
     public String getType() {
@@ -35,14 +29,6 @@ public class piece {
 
     public void setCost(double cost) {
         this.cost = cost;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
     }
 
 }
