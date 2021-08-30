@@ -1,5 +1,7 @@
 package com.dxa.control_produccion_muebleria.Backend.Model.Clases;
 
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.exceptionPiece;
+
 /**
  *
  * @author Artist
@@ -12,6 +14,9 @@ public class typePiece {
     public typePiece(String nameTypePiece, int stock) {
         this.nameTypePiece = nameTypePiece;
         this.stock = stock;
+    }
+
+    public typePiece() {
     }
 
     public String getNameTypePiece() {

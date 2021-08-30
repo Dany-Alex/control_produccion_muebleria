@@ -15,6 +15,9 @@ public class user {
         this.type = type;
     }
 
+    public user() {
+    }
+
     public String getName() {
         return name;
     }

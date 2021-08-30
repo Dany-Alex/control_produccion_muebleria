@@ -8,3 +8,11 @@ function loadDynamicContent(url, element) {
 function loadLogin() {
     loadDynamicContent("View/Login.jsp",document.getElementById('dynamicContent'));
 }
+
+function msgAlert(msg) {
+    if (msg=='UserNull') {
+         alert('Tipo de Usuario, Usuario o Password no son validos.\nVuelva intentar');
+    } else {
+       
+    }
+}
