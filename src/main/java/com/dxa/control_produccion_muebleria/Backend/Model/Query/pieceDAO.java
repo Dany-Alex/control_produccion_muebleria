@@ -156,20 +156,22 @@ public class pieceDAO {
         }
     }
 
-    public void delete(String codigo) throws SQLException, exceptionPiece {
+    public void delete(String id) throws SQLException, exceptionPiece {
         try {
+
             String query = "DELETE FROM " + nombreTabla
                     + " WHERE id_pieza = ? ;";
+            typePiece = new typePiece();
+            typePiece.setNameTypePiece(searchByCode(id).getType());
+            System.out.println("++++" + typePiece.getNameTypePiece());
 
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, codigo);
+            preparedStatement.setString(1, id);
             preparedStatement.executeUpdate();
-
+            typePieceDAO.updateStockUseOrDelete(typePiece, 1);
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
         } catch (SQLException e) {
-            throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
-        } catch (Exception e) {
             throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
         } finally {
             preparedStatement = null;

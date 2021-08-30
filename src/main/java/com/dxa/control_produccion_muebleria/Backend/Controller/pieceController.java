@@ -82,6 +82,7 @@ public class pieceController extends HttpServlet {
         HttpSession session = request.getSession();
         String action = request.getParameter("action"),
                 idPiece = request.getParameter("id-piece"),
+                idTypePiece = request.getParameter("input-delete-id-type-piece"),
                 typePiece = request.getParameter("input-type-piece-select"),
                 newType = request.getParameter("input-new-type"),
                 cost = request.getParameter("input-type-cost"), msg = "", error = "";
@@ -173,8 +174,9 @@ public class pieceController extends HttpServlet {
                         modelTypePiece.setNameTypePiece(newType);
                         modelTypePiece.setStock(0);
                         typePieceDAO.create(modelTypePiece);
-                        listTypePiece = typePieceDAO.listAllData();
-                        session.setAttribute("listAllTypePiece", listTypePiece);
+                        reloadTypePieceList(listTypePiece, session);
+                        reloadTablePiece(listPieces, session);
+
                         msg = "Tipo de pieza: " + modelTypePiece.getNameTypePiece() + " creada Exitosamente";
 
                     } catch (exceptionPiece ex) {
@@ -188,6 +190,25 @@ public class pieceController extends HttpServlet {
 
                 request.getRequestDispatcher(adminPiece).forward(request, response);
 
+                break;
+                case "delete-typePiece": {
+
+                    try {
+                        typePieceDAO.delete(idTypePiece);
+                        reloadTypePieceList(listTypePiece, session);
+                        reloadTablePiece(listPieces, session);
+
+                        msg = "Typi de Pieza codigo: " + idTypePiece + " eliminada Exitosamente";
+                    } catch (exceptionPiece ex) {
+                        error = ex.getMessage();
+                    } catch (SQLException ex) {
+                        error = ex.getMessage();
+                    }
+                }
+                session.setAttribute("msg", msg);
+                session.setAttribute("err", error);
+
+                request.getRequestDispatcher(adminPiece).forward(request, response);
                 break;
                 case "back":
                     session.setAttribute("msg", "");
@@ -207,6 +228,11 @@ public class pieceController extends HttpServlet {
     public void reloadTablePiece(List<piece> listPieces, HttpSession session) throws exceptionPiece {
         listPieces = pieceDAO.listAllData();
         session.setAttribute("listAllPieces", listPieces);
+    }
+
+    public void reloadTypePieceList(List<typePiece> listTypePiece, HttpSession session) throws exceptionPiece {
+        listTypePiece = typePieceDAO.listAllData();
+        session.setAttribute("listAllTypePiece", listTypePiece);
     }
 
     /**

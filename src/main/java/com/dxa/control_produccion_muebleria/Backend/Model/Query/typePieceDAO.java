@@ -110,6 +110,15 @@ public class typePieceDAO {
 
     }
 
+    /**
+     * *
+     *
+     * @param typePiece recibe un objeto typePiece, que se utiliza para obtener
+     * los datos para la creacion de un nuevo tipo de piza
+     * @return
+     * @throws SQLException
+     * @throws exceptionPiece
+     */
     public boolean create(typePiece typePiece) throws SQLException, exceptionPiece {
         try {
 
@@ -138,7 +147,9 @@ public class typePieceDAO {
      *
      * @param typePiece recibe un objeto typePiece, que se utiliza para obtener
      * los datos de la pieza a la que se le actualizara el stock
-     * @param quantity recibe la cantidad a actualizar en el stock
+     * @param quantity recibe la cantidad a actualizar en el stock, en este caso
+     * se incremetara el stock dependiendo de la cantida porque esta funcion es
+     * usada para la creacion de nuevas piezas
      * @return retorna un booleano que indica si se completo o no la operacion
      * realizada
      * @throws exceptionPiece crea un excepcion si algo sale mal al mumenro de
@@ -163,4 +174,64 @@ public class typePieceDAO {
         }
 
     }
+
+    /**
+     * *
+     *
+     * @param typePiece recibe un objeto typePiece, que se utiliza para obtener
+     * los datos de la pieza a la que se le actualizara el stock
+     * @param quantity recibe la cantidad a actualizar en el stock, en este caso
+     * se restara la cantidad ya que esta funcion se utiliza para cuando se
+     * elimina alguna pieza o si es utilizada
+     * @return retorna un booleano que indica si se completo o no la operacion
+     * realizada
+     * @throws exceptionPiece crea un excepcion si algo sale mal al mumenro de
+     * realizar la actulizacion del stock
+     */
+    public boolean updateStockUseOrDelete(typePiece typePiece, int quantity) throws exceptionPiece {
+        try {
+
+            String query = "UPDATE " + nombreTabla
+                    + " SET stock=stock-?"
+                    + " WHERE nombre = '" + typePiece.getNameTypePiece() + "';";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, quantity);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.toString());
+        } finally {
+
+            preparedStatement = null;
+        }
+
+    }
+
+    /**
+     * *
+     *
+     * @param name recibe un string que es el nombre del tipo de pieza a
+     * eliminar
+     * @throws SQLException
+     * @throws exceptionPiece
+     */
+    public void delete(String name) throws SQLException, exceptionPiece {
+        try {
+            String query = "DELETE FROM " + nombreTabla
+                    + " WHERE nombre = ? ;";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, name);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
+        } catch (SQLException e) {
+            throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
+        } finally {
+            preparedStatement = null;
+        }
+    }
+
 }

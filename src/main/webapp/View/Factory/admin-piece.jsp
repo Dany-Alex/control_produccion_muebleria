@@ -62,9 +62,16 @@
                                                                 <td>${typePiece.getNameTypePiece()}</td>
                                                                 <td>
                                                                     <form action = "pieceController" method = "POST">
+                                                                        <input 
+                                                                            name="input-delete-id-type-piece"
+                                                                            type="hidden" 
+                                                                            required=""
+                                                                            class="form-control rounded-pill border-1 border-dark  shadow-sm px-4"
+                                                                            value="${typePiece.getNameTypePiece()}"
+                                                                            > 
                                                                         <button type = "submit" name = "action"
-                                                                                value = "update-typePiece" class="btn btn-info  text-uppercase rounded-pill shadow-sm ">
-                                                                            Modificar</button>
+                                                                                value = "delete-typePiece" class="btn btn-danger  text-uppercase rounded-pill shadow-sm ">
+                                                                            Eliminar</button>
                                                                     </form> 
                                                                 </td>
                                                             </tr>
@@ -96,10 +103,10 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer align-items-center justify-content-center">
-                                                    <button type="submit" name="action" 
-                                                            value="new-type-piece" 
-                                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Crear nuevo tipo de pieza"
-                                                            class="btn btn-light text-uppercase  rounded-pill shadow-sm ">Crear</button>
+                                                <button type="submit" name="action" 
+                                                        value="new-type-piece" 
+                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Crear nuevo tipo de pieza"
+                                                        class="btn btn-light text-uppercase  rounded-pill shadow-sm ">Crear</button>
                                             </div>
                                         </form>
                                     </div>
