@@ -9,7 +9,7 @@
 
 
 <footer>
-    <div class=" container-fluid bg-danger text-light">
+    <div class=" container-fluid bg-transparent text-light">
         <div class="row">
          
 

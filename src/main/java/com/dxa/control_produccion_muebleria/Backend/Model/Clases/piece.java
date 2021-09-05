@@ -1,5 +1,6 @@
 package com.dxa.control_produccion_muebleria.Backend.Model.Clases;
 
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.exceptionPiece;
 
 /**
@@ -22,7 +23,7 @@ public class piece {
         return id;
     }
 
-    public void setId(String id) throws exceptionPiece {
+    public void setId(String id) throws CustomException {
         this.id = parseInt(id);
     }
 
@@ -33,38 +34,60 @@ public class piece {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(String type) throws CustomException {
+        if (validateTypeChars(type)) {
+            this.type = type;
+        } else {
+            throw new CustomException("El tipo: " + type + " no se puede crear, porque solo se pueden crear tipos que incluyan solo letras");
+        }
+
     }
 
     public double getCost() {
         return cost;
     }
 
-    public void setCost(String cost) throws exceptionPiece {
+    public void setCost(String cost) throws CustomException {
         this.cost = parseDouble(cost);
     }
 
-    public double parseDouble(String cost) throws exceptionPiece {
+    @Override
+    public String toString() {
+        return "type=" + type + ", cost=" + cost;
+    }
+
+    public boolean validateTypeChars(String string) {
+        boolean flang = false;
+        for (int i = 0; i < string.length(); i++) {
+            if (Character.isLetter(string.charAt(i))) {
+                flang = true;
+            } else {
+                flang = false;
+            }
+        }
+        return flang;
+    }
+
+    public double parseDouble(String cost) throws CustomException {
         double costDouble;
         try {
             costDouble = Double.parseDouble(cost);
         } catch (NumberFormatException e) {
-            throw new exceptionPiece("Hay un problema con el costo ingresado");
+            throw new CustomException("Hay un problema con el costo ingresado " + cost);
         } catch (NullPointerException e) {
-            throw new exceptionPiece("Hay un problema con el costo ingresado: es nulo");
+            throw new CustomException("Hay un problema con el costo ingresado: es nulo");
         }
         return costDouble;
     }
 
-    public int parseInt(String idPiece) throws exceptionPiece {
+    public int parseInt(String idPiece) throws CustomException {
         int id;
         try {
             id = Integer.parseInt(idPiece);
         } catch (NumberFormatException e) {
-            throw new exceptionPiece("Hay un problema con el id ingresado: " + idPiece);
+            throw new CustomException("Hay un problema con el id ingresado: " + idPiece);
         } catch (NullPointerException e) {
-            throw new exceptionPiece("Hay un problema con el id ingresado: es nulo");
+            throw new CustomException("Hay un problema con el id ingresado: es nulo");
         }
         return id;
     }

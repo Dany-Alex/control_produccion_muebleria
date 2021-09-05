@@ -1,6 +1,6 @@
 package com.dxa.control_produccion_muebleria.Backend.Model.Query;
 
-import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.exceptionPiece;
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.piece;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.typePiece;
 import com.dxa.control_produccion_muebleria.Backend.Model.Connection.DBconnection;
@@ -59,6 +59,41 @@ public class typePieceDAO {
         }
     }
 
+    public List sortTypePiece(String typeSort) throws CustomException {
+        ArrayList<typePiece> arrayList = new ArrayList<typePiece>();
+        try {
+            String query;
+            switch (typeSort) {
+                case "MyMn":
+                    query = "SELECT * FROM " + nombreTabla
+                            + " ORDER BY stock DESC;";
+                    break;
+                case "MnMy":
+                    query = "SELECT * FROM " + nombreTabla
+                            + " ORDER BY stock ASC;";
+                    break;
+                default:
+                    throw new CustomException("El tipo de dato no es compatible");
+            }
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                typePiece = new typePiece();
+                typePiece.setNameTypePiece(resultSet.getString(1));
+                typePiece.setStock(resultSet.getInt(2));
+                arrayList.add(typePiece);
+            }
+            resultSet.close();
+            System.out.println((resultSet.isClosed()) ? "Resulset Cerrado" : "Resulset No Cerrado");
+            return arrayList;
+        } catch (Exception e) {
+            throw new CustomException("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
+        } finally {
+            preparedStatement = null;
+        }
+    }
+
     public boolean searchNameTypePiece(String nameTypePiece) {
         boolean existe = false;
         try {
@@ -86,6 +121,14 @@ public class typePieceDAO {
         return existe;
     }
 
+    /**
+     * *
+     *
+     * @param nameTypePiece recibe el nombre del tipo de pieza la cual deseamos
+     * buscar
+     * @return retorna un int con la cantidad en stock que tiene el tipo de
+     * pieza buscado si en caso existe, de lo contrario retorna 0
+     */
     public int searchStockTypePiece(String nameTypePiece) {
         try {
 
@@ -116,10 +159,11 @@ public class typePieceDAO {
      * @param typePiece recibe un objeto typePiece, que se utiliza para obtener
      * los datos para la creacion de un nuevo tipo de piza
      * @return
-     * @throws SQLException
-     * @throws exceptionPiece
+     * @throws SQLException sirve para cuando se este tratando de crear un tipo
+     * de pieza ya existente
+     * @throws CustomException
      */
-    public boolean create(typePiece typePiece) throws SQLException, exceptionPiece {
+    public boolean create(typePiece typePiece) throws SQLException, CustomException {
         try {
 
             String query = "INSERT INTO " + nombreTabla
@@ -133,9 +177,9 @@ public class typePieceDAO {
             preparedStatement.executeUpdate();
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            throw new exceptionPiece("Esta tratando de crear un tipo de pieza ya existente");
+            throw new CustomException("Esta tratando de crear un tipo de pieza ya existente");
         } catch (SQLException e) {
-            throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.toString());
+            throw new CustomException("Consulta " + nombreTabla + " Error: " + e.toString());
         } finally {
             preparedStatement = null;
         }
@@ -152,10 +196,10 @@ public class typePieceDAO {
      * usada para la creacion de nuevas piezas
      * @return retorna un booleano que indica si se completo o no la operacion
      * realizada
-     * @throws exceptionPiece crea un excepcion si algo sale mal al mumenro de
+     * @throws CustomException crea un excepcion si algo sale mal al mumenro de
      * realizar la actulizacion del stock
      */
-    public boolean updateStockInsert(typePiece typePiece, int quantity) throws exceptionPiece {
+    public boolean updateStockInsert(typePiece typePiece, int quantity) throws CustomException {
         try {
 
             String query = "UPDATE " + nombreTabla
@@ -167,7 +211,7 @@ public class typePieceDAO {
             preparedStatement.executeUpdate();
             return true;
         } catch (Exception e) {
-            throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.toString());
+            throw new CustomException("Consulta " + nombreTabla + " Error: " + e.toString());
         } finally {
 
             preparedStatement = null;
@@ -185,10 +229,10 @@ public class typePieceDAO {
      * elimina alguna pieza o si es utilizada
      * @return retorna un booleano que indica si se completo o no la operacion
      * realizada
-     * @throws exceptionPiece crea un excepcion si algo sale mal al mumenro de
+     * @throws CustomException crea un excepcion si algo sale mal al mumenro de
      * realizar la actulizacion del stock
      */
-    public boolean updateStockUseOrDelete(typePiece typePiece, int quantity) throws exceptionPiece {
+    public boolean updateStockUseOrDelete(typePiece typePiece, int quantity) throws CustomException {
         try {
 
             String query = "UPDATE " + nombreTabla
@@ -200,7 +244,7 @@ public class typePieceDAO {
             preparedStatement.executeUpdate();
             return true;
         } catch (Exception e) {
-            throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.toString());
+            throw new CustomException("Consulta " + nombreTabla + " Error: " + e.toString());
         } finally {
 
             preparedStatement = null;
@@ -214,9 +258,9 @@ public class typePieceDAO {
      * @param name recibe un string que es el nombre del tipo de pieza a
      * eliminar
      * @throws SQLException
-     * @throws exceptionPiece
+     * @throws CustomException
      */
-    public void delete(String name) throws SQLException, exceptionPiece {
+    public void delete(String name) throws SQLException, CustomException {
         try {
             String query = "DELETE FROM " + nombreTabla
                     + " WHERE nombre = ? ;";
@@ -226,9 +270,9 @@ public class typePieceDAO {
             preparedStatement.executeUpdate();
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
+            throw new CustomException("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
         } catch (SQLException e) {
-            throw new exceptionPiece("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
+            throw new CustomException("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
         } finally {
             preparedStatement = null;
         }

@@ -27,20 +27,21 @@
     </head>
     <body onload="msgAlert('${msg.msg}')">
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
-            <div class="container-fluid">
 
-                <a class=" btn btn-outline-light border-0 rounded-pill" href="index.jsp">MI MUEBLERIA</a>
-
-
-                <div class="row-cols-lg-auto">
-                    <a class="btn btn-outline-light text-uppercase border-0 rounded-pill my-sm-0"  onclick="loadLogin()">Iniciar Sesion</a>
-                </div>
-            </div>
-        </nav>
 
         <div class="img-bg-wrapper">
             <div class="overlay-img-bg-wrapper">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+                    <div class="container-fluid">
+
+                        <a class=" btn btn-outline-light border-0 rounded-pill" href="index.jsp">MI MUEBLERIA</a>
+
+
+                        <div class="row-cols-lg-auto">
+                            <a class="btn btn-outline-light text-uppercase border-0 rounded-pill my-sm-0"  onclick="loadLogin()">Iniciar Sesion <i class="fas fa-door-open"></i></a>
+                        </div>
+                    </div>
+                </nav>
                 <section class="dynamicContent text-center" id="dynamicContent">
                     <div class=" text-center text-light d-flex justify-content-center">
                         <h1 class="card-heading display-2 text-uppercase mt-5"><b>MI MUEBLERIA</b></h1>  

@@ -37,26 +37,27 @@
                 <button class="navbar-toggler mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class=" btn btn-outline-light border-0 rounded-pill" >MI MUEBLERIA</a>
+                <a class=" btn btn-outline-light border-0 rounded-pill" ><i class="fas fa-home"></i> MI MUEBLERIA</a>
 
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul class="navbar-nav me-auto mx-3">
                         <li class="nav-item dropdown ">
-                            <a class="btn btn-outline-light border-0 text-uppercase rounded-pill dropdown-toggle mx-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mueble</a>
+                            <a class="btn btn-outline-light border-0 text-uppercase rounded-pill dropdown-toggle mx-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-couch"></i> Mueble</a>
                             <div class="dropdown-menu bg-danger text-center text-truncate">
                                 <div class="btn-group-vertical">
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill" 
                                        href="factoryPrincipalController?menu-factory=assemble-furniture" target="frameMenu" >
-                                        Ensamblar
+                                       <i class="fas fa-hammer"></i> Ensamblar
                                     </a>
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill" 
                                        href="factoryPrincipalController?menu-factory=register-furniture" target="frameMenu">
-                                        Registrar
+                                       <i class="fas fa-check"></i> Registrar
                                     </a>
 
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill" 
                                        href="factoryPrincipalController?menu-factory=info-furniture" target="frameMenu" >
-                                        Información
+                                      <i class="fas fa-info-circle"></i>  Información
                                     </a>
 
                                 </div>
@@ -68,16 +69,17 @@
 
 
                         <li class="nav-item dropdown">
-                            <a class="btn btn-outline-light border-0 text-uppercase rounded-pill dropdown-toggle mx-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Pieza</a>
+                            <a class="btn btn-outline-light border-0 text-uppercase rounded-pill dropdown-toggle mx-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-puzzle-piece"></i> Pieza</a>
                             <div class="dropdown-menu bg-danger text-center text-truncate">
                                 <div class="btn-group-vertical">
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill" 
                                        href="factoryPrincipalController?menu-factory=admin-piece" target="frameMenu" >
-                                        Administrar
+                                      <i class="fas fa-cog"></i> Administrar
                                     </a>
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill" 
                                        href="factoryPrincipalController?menu-factory=info-piece" target="frameMenu">
-                                        Información
+                                      <i class="fas fa-info-circle"></i> Información
                                     </a>
 
                                 </div>
@@ -103,7 +105,8 @@
                                         type="submit" 
                                         name="action" 
                                         value="logout"  
-                                        class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill">Cerrar Sesion</button>
+                                        class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill text-truncate mx-2">
+                                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesion</button>
                                 </form>
                             </div>
                         </li>

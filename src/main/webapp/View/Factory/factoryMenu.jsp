@@ -4,13 +4,13 @@
     response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
     response.setHeader("Expires", "0"); // Proxies.
 
-    if (session.getAttribute("userAttribute") == null) {
+    if (session.getAttribute("userAttribute") == null && session.getAttribute("typeUser")!="1") {
         System.out.println("redireccion al index");
         response.sendRedirect("index.jsp");
     } else {
         System.out.println("no redireccion al index - menu");
-        System.out.println("S --" + session.getAttribute("userAttribute"));
-        System.out.println("R --" + request.getParameter("userAttribute"));;
+        System.out.println("S --" + session.getAttribute("userAttribute") +" ----- " +session.getAttribute("typeUser"));
+        System.out.println("R --" + request.getParameter("userAttribute")+" ----- " +request.getParameter("typeUser"));;
 
     }
 %>

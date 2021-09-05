@@ -7,9 +7,17 @@ package com.dxa.control_produccion_muebleria.Backend.Model.Clases;
 public class client {
 
     private int nit;
-    private String name, address;
+    private String name, address, municipio, departamento;
 
-    public client(int nit, String name, String address) {
+    public client(String name, int nit, String address, String municipio, String departamento) {
+        this.nit = nit;
+        this.name = name;
+        this.address = address;
+        this.municipio = municipio;
+        this.departamento = departamento;
+    }
+
+    public client(String name, int nit, String address) {
         this.nit = nit;
         this.name = name;
         this.address = address;

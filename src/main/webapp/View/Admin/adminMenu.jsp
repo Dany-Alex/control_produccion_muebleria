@@ -1,11 +1,22 @@
-<%-- 
-    Document   : adminMenu
-    Created on : 13 ago 2021, 9:24:50
-    Author     : Artist
---%>
+<%
+    //session=request.getSession();
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setHeader("Expires", "0"); // Proxies.
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:include page="/includes/header-admin.jsp"/>
+    if (session.getAttribute("userAttribute") == null && session.getAttribute("typeUser")!="3") {
+        System.out.println("redireccion al index");
+        response.sendRedirect("index.jsp");
+    } else {
+        System.out.println("no redireccion al index - menu");
+        System.out.println("S --" + session.getAttribute("userAttribute") +" ----- " +session.getAttribute("typeUser"));
+        System.out.println("R --" + request.getParameter("userAttribute")+" ----- " +request.getParameter("typeUser"));;
+
+    }
+%>
+
+
+<jsp:include page="/Includes/header-admin.jsp"/>
 
        
       <div class="img-bg-wrapper" >
@@ -18,4 +29,4 @@
     </div>
 </div>
 
-<jsp:include page="/includes/footer-factory.jsp"/>
+<jsp:include page="/Includes/footer-factory.jsp"/>

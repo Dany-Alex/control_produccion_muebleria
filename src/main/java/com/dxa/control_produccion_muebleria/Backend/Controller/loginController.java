@@ -1,9 +1,12 @@
 package com.dxa.control_produccion_muebleria.Backend.Controller;
 
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.user;
 import com.dxa.control_produccion_muebleria.Backend.Model.Query.userDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -96,29 +99,34 @@ public class loginController extends HttpServlet {
                         default:
                     }
 
-                    boolean user = userDAO.validate(username, password, type);
+                    boolean user;
+                    try {
+                        user = userDAO.validate(username, password, type);
 
-                    if (user != false) {
+                        if (user != false) {
 
-                        if (type == 1) {
-                            url = menuFactoy;
-                            session.setAttribute("typeUser", 1);
-                        } else if (type == 2) {
-                            url = menuSale;
-                            session.setAttribute("typeUser", 2);
-                        } else if (type == 3) {
-                            url = menuAdmin;
-                            session.setAttribute("typeUser", 3);
+                            if (type == 1) {
+                                url = menuFactoy;
+                                session.setAttribute("typeUser", "1");
+                            } else if (type == 2) {
+                                url = menuSale;
+                                session.setAttribute("typeUser", "2");
+                            } else if (type == 3) {
+                                url = menuAdmin;
+                                session.setAttribute("typeUser", "3");
+                            }
+                            msgAlert = "";
+                            session.setAttribute("msgAlert", msgAlert);
+                            session.setAttribute("userAttribute", username);
+                            request.getRequestDispatcher(url).forward(request, response);
+                        } else {
+                            msgAlert = "UserNull";
+                            response.sendRedirect(
+                                    String.format("%s?msg=%s&error=true", viewIndex, msgAlert)
+                            );
                         }
-                        msgAlert = "";
-                        session.setAttribute("msgAlert", msgAlert);
-                        session.setAttribute("userAttribute", username);
-                        request.getRequestDispatcher(url).forward(request, response);
-                    } else {
-                        msgAlert = "UserNull";
-                        response.sendRedirect(
-                                String.format("%s?msg=%s&error=true", viewIndex, msgAlert)
-                        );
+                    } catch (CustomException ex) {
+                        session.setAttribute("msgAlert", ex.getMessage());
                     }
                     break;
                 case "logout":

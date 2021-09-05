@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <jsp:include page="/includes/resources.jsp"/>
+        <jsp:include page="/Includes/resources.jsp"/>
     </head>
     <body class="bg-transparent">
 

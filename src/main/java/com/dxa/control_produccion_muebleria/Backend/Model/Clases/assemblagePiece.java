@@ -1,33 +1,75 @@
 package com.dxa.control_produccion_muebleria.Backend.Model.Clases;
 
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
+
 /**
  *
  * @author Artist
  */
 public class assemblagePiece {
 
-    private String furniture;
-    private int typePiece;
+    private String namefurniture, typePiece;
+    private int amountPieces;
 
-    public assemblagePiece(String furniture, int typePiece) {
-        this.furniture = furniture;
-        this.typePiece = typePiece;
+    public assemblagePiece() {
     }
 
-    public String getFurniture() {
-        return furniture;
+    public int getAmountPieces() {
+        return amountPieces;
     }
 
-    public void setFurniture(String furniture) {
-        this.furniture = furniture;
+    public void setAmountPieces(String amountPieces) throws CustomException {
+        this.amountPieces = parseInt(amountPieces);
+
     }
 
-    public int getTypePiece() {
+    public int parseInt(String string) throws CustomException {
+        int amountPieces;
+        try {
+            amountPieces = Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            throw new CustomException("Hay un problema con el id ingresado: " + string);
+        } catch (NullPointerException e) {
+            throw new CustomException("Hay un problema con el id ingresado: es nulo");
+        }
+        return amountPieces;
+    }
+
+    public String getNamefurniture() {
+        return namefurniture;
+    }
+
+    public void setNamefurniture(String namefurniture) {
+        this.namefurniture = namefurniture;
+    }
+
+    public String getTypePiece() {
         return typePiece;
     }
 
-    public void setTypePiece(int typePiece) {
-        this.typePiece = typePiece;
+    public void setTypePiece(String typePiece) throws CustomException {
+        if (validateTypeChars(typePiece)) {
+            this.typePiece = typePiece;
+        } else {
+            throw new CustomException("el tipo: " + typePiece + " no se puede crear, porque solo se pueden crear tipos que incluyasn solo letras");
+        }
+    }
+
+    public boolean validateTypeChars(String string) {
+        boolean flang = false;
+        for (int i = 0; i < string.length(); i++) {
+            if (Character.isLetter(string.charAt(i))) {
+                flang = true;
+            } else {
+                flang = false;
+            }
+        }
+        return flang;
+    }
+
+    @Override
+    public String toString() {
+        return "namefurniture=" + namefurniture + ", typePiece=" + typePiece + ", amountPieces=" + amountPieces;
     }
 
 }

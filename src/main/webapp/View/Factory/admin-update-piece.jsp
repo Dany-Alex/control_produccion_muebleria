@@ -25,7 +25,6 @@
                 <div class="row justify-content-center align-items-center text-center ">
                     <div class="col-sm-4 border border-1 ">
                         <div class=" col mx-4 mb-3">
-                            <div class="form-group" >
                                 <h3 class="card-heading text-uppercase "><b>Modificar Pieza ID: ${updateModelPiece.getId()}</b></h3>  
 
                                 <form class=" mb-3 " action="pieceController" method="POST">
@@ -36,7 +35,6 @@
                                         class="form-control rounded-pill border-1 border-dark  shadow-sm px-4"
                                         value="${updateModelPiece.getId()}"
                                         > 
-                                    </div>
                                     <label for="input-update-type-piece-select" class="sr-only  text-light">Tipo Pieza</label>
 
                                     <select class="form-control form-select rounded-pill border-1 border-dark shadow-sm px-4" 

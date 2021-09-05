@@ -88,7 +88,7 @@
                                                 <div class="row justify-content-center align-items-center text-center">
                                                     <div class="col-md-7 ">
 
-                                                        <label for="input-new-type" class="sr-only  text-light">Nuevo Tipo de Pieza</label>
+                                                        <label for="input-new-type" class="  text-light">Nuevo Tipo de Pieza</label>
                                                         <div class="form-group " >
 
                                                             <input 
@@ -114,7 +114,7 @@
                             </div>
                             <form class=" mb-3 " action="pieceController" method="POST">
 
-                                <label for="input-type-piece-select" class="sr-only  text-light">Tipo Pieza</label>
+                                <label for="input-type-piece-select" class="  text-light">Tipo Pieza</label>
 
                                 <select class="form-control form-select rounded-pill border-1 border-dark shadow-sm px-4" 
                                         name="input-type-piece-select">
@@ -123,7 +123,7 @@
                                     </c:forEach>
 
                                 </select>
-                                <label for="input-type-cost" class="sr-only mt-2 text-light">Costo</label>
+                                <label for="input-type-cost" class=" mt-2 text-light">Costo</label>
                                 <input 
                                     name="input-type-cost"
                                     type="text" 
@@ -172,8 +172,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <label for="input-type-piece-select" class="sr-only  text-success">${msg}</label>
-                        <label for="input-type-piece-select" class="sr-only  text-danger">${err}</label>
+                        <label for="input-type-piece-select" class="  text-success">${msg}</label>
+                        <label for="input-type-piece-select" class="  text-danger">${err}</label>
 
 
                     </div>
