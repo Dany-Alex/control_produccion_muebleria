@@ -35,12 +35,12 @@
 
                 <div class="card bg-transparent ">
                     <div class="card-header border border-1">
-                        Resultados de Carga
+                        Resultados de la lectura en el archivo de texto
                     </div>
                     <div class="card-body border border-1 mb-2">
                         <div class="row  justify-content-center align-items-center mb-1">
                             <div class="col  ">
-                                Datos Cargados
+                                Datos leidos correctamente
                                 <table class="table table-hover table-striped bg-light mt-3" >
                                     <thead>
                                         <tr>
@@ -62,7 +62,7 @@
 
                             </div>
                             <div class="col ">
-                                Datos No Cargados
+                                Datos no leidos por errores logicos o de escritura
                                 <table class="table table-hover table-striped bg-light mt-3" >
                                     <thead>
                                         <tr>

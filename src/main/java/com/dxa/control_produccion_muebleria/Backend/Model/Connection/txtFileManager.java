@@ -7,20 +7,32 @@ package com.dxa.control_produccion_muebleria.Backend.Model.Connection;
 
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.assemblagePiece;
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.assembleFurniture;
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.client;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.furniture;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.loadTxtError;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.loadTxtSuccess;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.piece;
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.typePiece;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.user;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.assemblagePieceDAO;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.assembleFornitureDAO;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.clientDAO;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.furnitureDAO;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.pieceDAO;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.typePieceDAO;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.userDAO;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,11 +48,12 @@ public class txtFileManager {
     private ArrayList listErrors = new ArrayList();
     private ArrayList listLoadSuccess = new ArrayList();
 
-    private ArrayList pieceList = new ArrayList();
-    private ArrayList furnitureList = new ArrayList();
-    private ArrayList userList = new ArrayList();
-    private ArrayList assemblePieceList = new ArrayList();
-    private ArrayList assembleFurnitureList = new ArrayList();
+    private List<piece> pieceList = new ArrayList();
+    private List<furniture> furnitureList = new ArrayList();
+    private List<user> userList = new ArrayList();
+    private List<client> clientList = new ArrayList();
+    private List<assemblagePiece> assemblePieceList = new ArrayList();
+    private List<assembleFurniture> assembleFurnitureList = new ArrayList();
 
     private int index = 0; //lleva control del registro actualmente visible
 
@@ -264,7 +277,7 @@ public class txtFileManager {
                                             assemblagePiece.setNamefurniture(nameFurniture);
                                             assemblagePiece.setTypePiece(typePiece);
                                             assemblagePiece.setAmountPieces(amountPieces + "");
-                                            assembleFurnitureList.add(assemblagePiece);
+                                            assemblePieceList.add(assemblagePiece);
 
                                             addNewSuccess(line, identifierTmp, assemblagePiece.toString());
 
@@ -285,41 +298,120 @@ public class txtFileManager {
                                 }
                             }
                             break;
-                            case "ENSAMBLAR_MUEBLE":
-                                System.out.println("+------------------< ESTRUCTURA ENCONTRADA >-------------------+");
+                            case "ENSAMBLAR_MUEBLE": {
+                                try {
+                                    System.out.println("+------------------< ESTRUCTURA ENCONTRADA >-------------------+");
 
-                                System.out.println("Identificador: " + identifierTmp);
-                                if (currentLine.charAt(identifierTmp.length()) == '(' && currentLine.charAt(currentLine.length() - 1) == ')') {
+                                    System.out.println("Identificador: " + identifierTmp);
+                                    if (currentLine.charAt(identifierTmp.length()) == '(' && currentLine.charAt(currentLine.length() - 1) == ')') {
 
-                                    structureTmp = currentLine.substring(i + 2, currentLine.length() - 1).split(",");
+                                        structureTmp = currentLine.substring(i + 2, currentLine.length() - 1).split(",");
 
-                                    if ((structureTmp[0].charAt(0) == '"' && structureTmp[0].charAt(structureTmp[0].length() - 1) == '"')
-                                            && (structureTmp[1].charAt(0) == '"' && structureTmp[1].charAt(structureTmp[1].length() - 1) == '"')
-                                            && (structureTmp[2].charAt(0) == '"' && structureTmp[2].charAt(structureTmp[2].length() - 1) == '"')) {
+                                        if ((structureTmp[0].charAt(0) == '"' && structureTmp[0].charAt(structureTmp[0].length() - 1) == '"')
+                                                && (structureTmp[1].charAt(0) == '"' && structureTmp[1].charAt(structureTmp[1].length() - 1) == '"')
+                                                && (structureTmp[2].charAt(0) == '"' && structureTmp[2].charAt(structureTmp[2].length() - 1) == '"')) {
 
-                                        String nameFurniture = structureTmp[0].replace("\"", ""),
-                                                nameUser = structureTmp[1].replace("\"", ""),
-                                                assemblyDate = structureTmp[2].replace("\"", "");
+                                            String nameFurniture = structureTmp[0].replace("\"", ""),
+                                                    nameUser = structureTmp[1].replace("\"", ""),
+                                                    assemblyDate = structureTmp[2].replace("\"", "");
 
-                                        if (validateDate(assemblyDate)) {
-                                            String assemblyDateFormat = dateFormat(assemblyDate);
-                                            System.out.println("datos: " + nameFurniture + " - " + nameUser + " - " + assemblyDateFormat);
+                                            assembleFurniture assembleFurniture = new assembleFurniture();
+
+                                            assembleFurniture.setFurniture(nameFurniture);
+                                            assembleFurniture.setUser(nameUser);
+                                            assembleFurniture.setDate(assemblyDate + "");
+                                            assembleFurnitureList.add(assembleFurniture);
+
+                                            addNewSuccess(line, identifierTmp, assembleFurniture.toString());
+
                                         } else {
-                                            System.out.println("datos: " + nameFurniture + " - " + nameUser + " -  Error con el formato de fecha dd/MM/yyyy");
+                                            String errorType = "La estructura no es correcta";
+                                            addNewError(line, identifierTmp, errorType, currentLine);
                                         }
-                                        identifierTmp = "";
-                                        System.out.println("+----------------------[ FIN ESTRUCTURA ]----------------------+");
                                     } else {
-                                        System.out.println("la estructura no es correcta");
-                                        System.out.println("+----------------------[ FIN ESTRUCTURA ]----------------------+");
-                                        identifierTmp = "";
+                                        String errorType = "La estructura no es correcta";
+                                        addNewError(line, identifierTmp, errorType, currentLine);
                                     }
-                                } else {
-                                    System.out.println("la estructura no es correcta");
-                                    System.out.println("+----------------------[ FIN ESTRUCTURA ]----------------------+");
+
+                                } catch (CustomException ex) {
+                                    addNewError(line, identifierTmp, ex.getMessage(), currentLine);
+                                } finally {
                                     identifierTmp = "";
+                                    System.out.println("+----------------------[ FIN ESTRUCTURA ]----------------------+");
                                 }
-                                break;
+                            }
+                            break;
+
+                            case "CLIENTE": {
+                                try {
+                                    System.out.println("+------------------< ESTRUCTURA ENCONTRADA >-------------------+");
+
+                                    System.out.println("Identificador: " + identifierTmp);
+                                    if (currentLine.charAt(identifierTmp.length()) == '(' && currentLine.charAt(currentLine.length() - 1) == ')') {
+
+                                        structureTmp = currentLine.substring(i + 2, currentLine.length() - 1).split(",");
+
+                                        if (structureTmp.length == 3) {
+                                            if ((structureTmp[0].charAt(0) == '"' && structureTmp[0].charAt(structureTmp[0].length() - 1) == '"')
+                                                    && (structureTmp[1].charAt(0) == '"' && structureTmp[1].charAt(structureTmp[1].length() - 1) == '"')
+                                                    && (structureTmp[2].charAt(0) == '"' && structureTmp[2].charAt(structureTmp[2].length() - 1) == '"')) {
+
+                                                String name = structureTmp[0].replace("\"", ""),
+                                                        nit = structureTmp[1].replace("\"", ""),
+                                                        direction = structureTmp[2].replace("\"", "");
+
+                                                client client = new client();
+                                                client.setNit(nit);
+                                                client.setName(name);
+                                                client.setAddress(direction);
+                                                clientList.add(client);
+
+                                                addNewSuccess(line, identifierTmp, client.toString());
+                                            } else {
+                                                String errorType = "La estructura no es correcta";
+                                                addNewError(line, identifierTmp, errorType, currentLine);
+                                            }
+
+                                        } else if (structureTmp.length == 5) {
+                                            if ((structureTmp[0].charAt(0) == '"' && structureTmp[0].charAt(structureTmp[0].length() - 1) == '"')
+                                                    && (structureTmp[1].charAt(0) == '"' && structureTmp[1].charAt(structureTmp[1].length() - 1) == '"')
+                                                    && (structureTmp[2].charAt(0) == '"' && structureTmp[2].charAt(structureTmp[2].length() - 1) == '"')
+                                                    && (structureTmp[3].charAt(0) == '"' && structureTmp[3].charAt(structureTmp[3].length() - 1) == '"')
+                                                    && (structureTmp[4].charAt(0) == '"' && structureTmp[4].charAt(structureTmp[4].length() - 1) == '"')) {
+
+                                                String name = structureTmp[0].replace("\"", ""),
+                                                        nit = structureTmp[1].replace("\"", ""),
+                                                        direction = structureTmp[2].replace("\"", ""),
+                                                        departamento = structureTmp[1].replace("\"", ""),
+                                                        municipio = structureTmp[2].replace("\"", "");
+
+                                                client client = new client();
+                                                client.setNit(nit);
+                                                client.setName(name);
+                                                client.setAddress(direction);
+                                                client.setDepartamento(departamento);
+                                                client.setMunicipio(municipio);
+                                                clientList.add(client);
+
+                                                addNewSuccess(line, identifierTmp, client.toString());
+                                            } else {
+                                                String errorType = "La estructura no es correcta comillas";
+                                                addNewError(line, identifierTmp, errorType, currentLine);
+                                            }
+
+                                        }
+                                    } else {
+                                        String errorType = "La estructura no es correcta Parentesis";
+                                        addNewError(line, identifierTmp, errorType, currentLine);
+                                    }
+
+                                } catch (CustomException ex) {
+                                    addNewError(line, identifierTmp, ex.getMessage(), currentLine);
+                                } finally {
+                                    identifierTmp = "";
+                                    System.out.println("+----------------------[ FIN ESTRUCTURA ]----------------------+");
+                                }
+                            }
 
                             default:
 
@@ -330,6 +422,40 @@ public class txtFileManager {
             flag = true;
         }
         return flag;
+    }
+
+    public void insertsToBD() throws CustomException, SQLException {
+
+        for (user user : userList) {
+            userDAO userDAO = new userDAO();
+            userDAO.create(user);
+        }
+        for (client client : clientList) {
+            clientDAO clientDAO = new clientDAO();
+            clientDAO.create(client);
+        }
+        for (piece piece : pieceList) {
+            typePieceDAO typePieceDAO = new typePieceDAO();
+            typePiece typePiece = new typePiece();
+            typePiece.setNameTypePiece(piece.getType());
+            if (typePieceDAO.create(typePiece)) {
+                pieceDAO pieceDAO = new pieceDAO();
+                pieceDAO.create(piece);
+            }
+        }
+        for (furniture furniture : furnitureList) {
+            furnitureDAO furnitureDAO = new furnitureDAO();
+            furnitureDAO.create(furniture);
+        }
+        for (assemblagePiece piece : assemblePieceList) {
+            assemblagePieceDAO assemblagePieceDAO = new assemblagePieceDAO();
+            assemblagePieceDAO.create(piece);
+        }
+        for (assembleFurniture furniture : assembleFurnitureList) {
+            assembleFornitureDAO assembleFornitureDAO = new assembleFornitureDAO();
+            assembleFornitureDAO.create(furniture);
+        }
+
     }
 
     public void addNewSuccess(int line, String identifier, String data) {
@@ -401,42 +527,6 @@ public class txtFileManager {
 
     public void setListLoadSuccess(ArrayList listLoadSuccess) {
         this.listLoadSuccess = listLoadSuccess;
-    }
-
-    public ArrayList getPieceList() {
-        return pieceList;
-    }
-
-    public void setPieceList(ArrayList pieceList) {
-        this.pieceList = pieceList;
-    }
-
-    public ArrayList getFurnitureList() {
-        return furnitureList;
-    }
-
-    public void setFurnitureList(ArrayList furnitureList) {
-        this.furnitureList = furnitureList;
-    }
-
-    public ArrayList getUserList() {
-        return userList;
-    }
-
-    public void setUserList(ArrayList userList) {
-        this.userList = userList;
-    }
-
-    public ArrayList getAssemblePieceList() {
-        return assemblePieceList;
-    }
-
-    public void setAssemblePieceList(ArrayList assemblePieceList) {
-        this.assemblePieceList = assemblePieceList;
-    }
-
-    public ArrayList getAssembleFurnitureList() {
-        return assembleFurnitureList;
     }
 
     public void setAssembleFurnitureList(ArrayList assembleFurnitureList) {

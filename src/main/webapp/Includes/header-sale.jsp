@@ -29,24 +29,24 @@
                             <div class="dropdown-menu bg-danger text-center text-truncate">
                                 <div class="btn-group-vertical">
                                     <a class="btn btn-outline-light border-0 text-uppercase  rounded-pill" 
-                                       href="factoryPrincipalController?menu-factory=assemble-furniture" target="frameMenuSale">
+                                       href="salePrincipalController?menu-sale=assemble-furniture" target="frameMenuSale">
                                         <i class="fas fa-cash-register"></i> Compras
                                     </a>
                                     <a class="btn btn-outline-light border-0 text-uppercase  rounded-pill" 
-                                       href="factoryPrincipalController?menu-factory=register-furniture" target="frameMenuSale">
+                                       href="salePrincipalController?menu-sale=register-furniture" target="frameMenuSale">
                                         <i class="fas fa-cart-arrow-down"></i> Devoluciones
                                     </a>
 
                                     <a class="btn btn-outline-light border-0 text-uppercase  rounded-pill" 
-                                       href="factoryPrincipalController?menu-factory=info-furniture" target="frameMenuSale">
+                                       href="salePrincipalController?menu-sale=info-furniture" target="frameMenuSale">
                                         <i class="fas fa-couch"></i> Muebles disponibles
                                     </a>
                                     <a class="btn btn-outline-light border-0 text-uppercase rounded-pill" 
-                                       href="factoryPrincipalController?menu-factory=info-furniture" target="frameMenuSale">
+                                       href="salePrincipalController?menu-sale=ds" target="frameMenuSale">
                                         <i class="fas fa-file-invoice-dollar"></i> detalles Factura
                                     </a>
                                     <a class="btn btn-outline-light border-0 text-uppercase rounded-pill" 
-                                       href="factoryPrincipalController?menu-factory=info-furniture" target="frameMenuSale">
+                                       href="salePrincipalController?menu-sale=ff" target="frameMenuSale">
                                         <i class="fas fa-calendar-alt"></i> Ventas del dia
                                     </a>
 
@@ -59,7 +59,7 @@
                         <li class="nav-item dropdown ">
 
                             <a class="btn btn-outline-light border-0 text-uppercase  rounded-pill" 
-                               href="factoryPrincipalController?menu-factory=assemble-furniture" target="frameMenuSale">
+                               href="salePrincipalController?menu-sale=assemble-furniture" target="frameMenuSale">
                                 Registrar Cliente
                             </a>
                             
@@ -67,7 +67,7 @@
                         <li class="nav-item dropdown ">
 
                             <a class="btn btn-outline-light border-0 text-uppercase  rounded-pill" 
-                               href="factoryPrincipalController?menu-factory=assemble-furniture" target="frameMenuSale">
+                               href="salePrincipalController?menu-sale=make-sale" target="frameMenuSale">
                                 Realizar Venta
                             </a>
                             

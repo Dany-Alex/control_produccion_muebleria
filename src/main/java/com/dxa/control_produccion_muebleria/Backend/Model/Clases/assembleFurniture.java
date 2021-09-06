@@ -12,8 +12,9 @@ import java.util.Date;
 public class assembleFurniture {
 
     private String user, furniture;
-    double cost;
+    private double cost;
     private Date date;
+    private int id;
 
     public assembleFurniture() {
     }
@@ -23,6 +24,14 @@ public class assembleFurniture {
         this.furniture = furniture;
         this.cost = cost;
         this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUser() {
@@ -148,7 +157,7 @@ public class assembleFurniture {
 
     @Override
     public String toString() {
-        return "user=" + user + ", furniture=" + furniture + ", cost=" + cost + ", date=" + date;
+        return "user=" + user + ", furniture=" + furniture + ", cost=" + cost + ", date=" + getDateSQL();
     }
 
 }

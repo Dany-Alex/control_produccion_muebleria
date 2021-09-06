@@ -49,7 +49,6 @@ public class factoryPrincipalController extends HttpServlet {
             home = path + "factoryMenu.jsp";
     private typePieceDAO typePieceDAO = new typePieceDAO();
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -196,9 +195,6 @@ public class factoryPrincipalController extends HttpServlet {
         assembleFornitureDAO assembleFornitureDAO = new assembleFornitureDAO();
         List<assembleFurniture> listSortDateAssembleFurniture = assembleFornitureDAO.sortJoinDate("MyMn");
         session.setAttribute("listSortAllAssembleFurniture", listSortDateAssembleFurniture);
-        for (assembleFurniture furniture1 : listSortDateAssembleFurniture) {
-            System.out.println("reloadSortDateAssembleFurnitureList ---" + furniture1.toString());
-        }
     }
 
     /**

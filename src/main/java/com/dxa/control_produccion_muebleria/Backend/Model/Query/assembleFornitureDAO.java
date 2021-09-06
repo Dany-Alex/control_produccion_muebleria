@@ -7,6 +7,7 @@ package com.dxa.control_produccion_muebleria.Backend.Model.Query;
 
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.assembleFurniture;
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.furniture;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.sortPiece;
 import com.dxa.control_produccion_muebleria.Backend.Model.Connection.DBconnection;
 import java.sql.Connection;
@@ -96,6 +97,34 @@ public class assembleFornitureDAO {
                 assembleFurniture.setCost(resultSet.getDouble(3) + "");
                 assembleFurniture.setDate(resultSet.getDate(4) + "");
                 arrayList.add(assembleFurniture);
+            }
+            resultSet.close();
+            System.out.println((resultSet.isClosed()) ? "Resulset Cerrado" : "Resulset No Cerrado");
+            return arrayList;
+        } catch (Exception e) {
+            throw new CustomException("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
+        } finally {
+            preparedStatement = null;
+        }
+    }
+
+    public List aviableSale() throws CustomException {
+        ArrayList<furniture> arrayList = new ArrayList<furniture>();
+        try {
+            String query = "SELECT ensamblar_mueble.codigo_ensamblar_mueble,mueble.nombre,mueble.precio"
+                    + " FROM " + nombreTabla
+                    + " INNER JOIN mueble"
+                    + " ON ensamblar_mueble.mueble = mueble.nombre"
+                    + " WHERE ensamblar_mueble.vendido!=1;";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                furniture furniture = new furniture();
+                furniture.setId(resultSet.getInt(1));
+                furniture.setName(resultSet.getString(2));
+                furniture.setPrice(resultSet.getDouble(3) + "");
+                arrayList.add(furniture);
             }
             resultSet.close();
             System.out.println((resultSet.isClosed()) ? "Resulset Cerrado" : "Resulset No Cerrado");

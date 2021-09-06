@@ -5,13 +5,18 @@
  */
 package com.dxa.control_produccion_muebleria.Backend.Controller;
 
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.assembleFornitureDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,22 +36,15 @@ public class salePrincipalController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet salePrincipalController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet salePrincipalController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    }
+    String viewIndex = "/index.jsp";
+    String path = "/View/Sale/";
+    String makeSale = path + "make-sale.jsp",
+            registerFurniture = path + "register-furniture.jsp",
+            billing = path + "billing.jsp",
+            home = path + "saleMenu.jsp";
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -58,7 +56,41 @@ public class salePrincipalController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        HttpSession session = request.getSession();
+
+        String menu = request.getParameter("menu-sale");
+        String action = request.getParameter("action");
+
+        if (menu == null || menu.isEmpty()) {
+            // request.getRequestDispatcher(viewIndex).forward(request, response);
+        } else {
+            switch (menu) {
+
+                case "make-sale": {
+                    try {
+                        assembleFornitureDAO assembleFornitureDAO = new assembleFornitureDAO();
+                        session.setAttribute("listAllAviableSaleFurniture", assembleFornitureDAO.aviableSale());
+                    } catch (CustomException ex) {
+                        session.setAttribute("err", ex.getMessage());
+                    }
+                }
+
+                request.getRequestDispatcher(makeSale).forward(request, response);
+                break;
+                case "go-billing":
+
+                    session.setAttribute("idSale", request.getParameter("id-sale"));
+                    request.getRequestDispatcher(billing).forward(request, response);
+                    break;
+                case "home":
+                    request.getRequestDispatcher(home).forward(request, response);
+                    break;
+                default:
+
+            }
+        }
+
     }
 
     /**
@@ -72,7 +104,7 @@ public class salePrincipalController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /**

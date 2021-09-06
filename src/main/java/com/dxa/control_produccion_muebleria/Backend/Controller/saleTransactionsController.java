@@ -6,31 +6,22 @@
 package com.dxa.control_produccion_muebleria.Backend.Controller;
 
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
-import com.dxa.control_produccion_muebleria.Backend.Model.Connection.txtFileManager;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.assembleFornitureDAO;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Paths;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 
 /**
  *
  * @author Artist
  */
-@WebServlet(name = "loadTxtController", urlPatterns = {"/loadTxtController"})
-
-@MultipartConfig
-//@MultipartConfig(location = "C:\\Users\\Artist\\AppData\\Local\\Temp")
-public class loadTxtController extends HttpServlet {
+@WebServlet(name = "saleTransactionsController", urlPatterns = {"/saleTransactionsController"})
+public class saleTransactionsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,6 +34,7 @@ public class loadTxtController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
     }
 
     /**
@@ -56,11 +48,8 @@ public class loadTxtController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
-    String path = "/View/Admin/";
-    String loadTxt = path + "load-txt.jsp";
-    txtFileManager txtFileManager;
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -74,32 +63,27 @@ public class loadTxtController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String msg = "", error = "";
 
-        try {
-            Part filePart = request.getPart("datafile");
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
-            InputStream fileInputStream = filePart.getInputStream();
-            txtFileManager = new txtFileManager(fileInputStream);
-            if (txtFileManager.creatingInitData()) {
-                msg = String.format("Lectura de %s finalizada con exito ", fileName);
-                txtFileManager.insertsToBD();
+        String menu = request.getParameter("menu-sale");
+        String action = request.getParameter("action");
 
-            } else {
-                error = "Carga de datos ha fallado ";
+        if (menu == null || menu.isEmpty()) {
+            // request.getRequestDispatcher(viewIndex).forward(request, response);
+        } else {
+            switch (menu) {
+
+                case "make-sale":
+
+                    //request.getRequestDispatcher(makeSale).forward(request, response);
+                    break;
+
+                case "home":
+                    //  request.getRequestDispatcher(home).forward(request, response);
+                    break;
+                default:
+
             }
-        } catch (CustomException ex) {
-            error = ex.getMessage();
-        } catch (IOException ex) {
-            error = ex.getMessage();
-        } catch (SQLException ex) {
-            error = ex.getMessage();
         }
-        session.setAttribute("listLoadError", txtFileManager.getListErrors());
-        session.setAttribute("listLoadSave", txtFileManager.getListLoadSuccess());
-        session.setAttribute("msg", msg);
-        session.setAttribute("err", error);
-        request.getRequestDispatcher(loadTxt).forward(request, response);
     }
 
     /**

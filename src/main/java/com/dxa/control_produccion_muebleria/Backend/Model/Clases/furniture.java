@@ -10,6 +10,7 @@ public class furniture {
 
     private String name;
     private double price;
+    private int id, vendido;
 
     public furniture(String name, double price) {
         this.name = name;
@@ -17,6 +18,22 @@ public class furniture {
     }
 
     public furniture() {
+    }
+
+    public int getVendido() {
+        return vendido;
+    }
+
+    public void setVendido(int vendido) {
+        this.vendido = vendido;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
