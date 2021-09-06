@@ -424,25 +424,49 @@ public class txtFileManager {
         return flag;
     }
 
-    public void insertsToBD() throws CustomException, SQLException {
+    public void insertsToBD() throws SQLException, CustomException {
 
-        for (user user : userList) {
-            userDAO userDAO = new userDAO();
-            userDAO.create(user);
-        }
-        for (client client : clientList) {
-            clientDAO clientDAO = new clientDAO();
-            clientDAO.create(client);
-        }
-        for (piece piece : pieceList) {
-            typePieceDAO typePieceDAO = new typePieceDAO();
-            typePiece typePiece = new typePiece();
-            typePiece.setNameTypePiece(piece.getType());
-            if (typePieceDAO.create(typePiece)) {
-                pieceDAO pieceDAO = new pieceDAO();
-                pieceDAO.create(piece);
+        try {
+            for (user user : userList) {
+                userDAO userDAO = new userDAO();
+                userDAO.create(user);
+
+            }
+        } catch (SQLException ex) {
+            throw new CustomException("Error: " + ex.getMessage());
+        } catch (CustomException ex) {
+            throw new CustomException("Error: " + ex.getMessage());
+        } finally {
+            try {
+                for (client client : clientList) {
+                    clientDAO clientDAO = new clientDAO();
+                    clientDAO.create(client);
+                }
+            } catch (SQLException ex) {
+                throw new CustomException("Error: " + ex.getMessage());
+            } catch (CustomException ex) {
+                throw new CustomException("Error: " + ex.getMessage());
+            } finally {
+                try {
+                    for (piece piece : pieceList) {
+                        typePieceDAO typePieceDAO = new typePieceDAO();
+                        typePiece typePiece = new typePiece();
+                        typePiece.setNameTypePiece(piece.getType());
+                        if (typePieceDAO.create(typePiece)) {
+                            pieceDAO pieceDAO = new pieceDAO();
+                            pieceDAO.create(piece);
+                        }
+                    }
+                } catch (SQLException ex) {
+                    throw new CustomException(" Error: " + ex.getMessage());
+                } catch (CustomException ex) {
+                    throw new CustomException(" Error: " + ex.getMessage());
+                } finally {
+
+                }
             }
         }
+
         for (furniture furniture : furnitureList) {
             furnitureDAO furnitureDAO = new furnitureDAO();
             furnitureDAO.create(furniture);
