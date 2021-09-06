@@ -1,13 +1,8 @@
 package com.dxa.control_produccion_muebleria.Backend.Controller;
 
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
-import com.dxa.control_produccion_muebleria.Backend.Model.Clases.user;
 import com.dxa.control_produccion_muebleria.Backend.Model.Query.userDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -102,7 +97,6 @@ public class loginController extends HttpServlet {
                     boolean user;
                     try {
                         user = userDAO.validate(username, password, type);
-
                         if (user != false) {
 
                             if (type == 1) {

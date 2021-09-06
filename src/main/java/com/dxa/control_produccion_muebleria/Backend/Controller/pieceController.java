@@ -47,7 +47,6 @@ public class pieceController extends HttpServlet {
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -102,10 +101,14 @@ public class pieceController extends HttpServlet {
                 case "new-piece": {
 
                     try {
-                        modelPiece.setType(typePiece);
-                        modelPiece.setCost(cost);
+                        modelPiece.setType(typePiece.trim());
+                        modelPiece.setCost(cost.trim());
                         pieceDAO.create(modelPiece);
+                        reloadTypePieceList(session);
+
                         reloadTablePiece(listPieces, session);
+                        listAllDataAvailable(session);
+
                         msg = "Pieza: " + modelPiece.getType() + " creada Exitosamente";
 
                     } catch (SQLException ex) {
@@ -136,11 +139,13 @@ public class pieceController extends HttpServlet {
 
                 case "update-id-piece": {
                     try {
-                        modelPiece.setId(request.getParameter("input-update-id-piece"));
-                        modelPiece.setType(request.getParameter("input-update-type-piece-select"));
-                        modelPiece.setCost(request.getParameter("input-update-type-cost"));
+                        modelPiece.setId(request.getParameter("input-update-id-piece").trim());
+                        modelPiece.setType(request.getParameter("input-update-type-piece-select").trim());
+                        modelPiece.setCost(request.getParameter("input-update-type-cost").trim());
                         pieceDAO.update(modelPiece);
                         reloadTablePiece(listPieces, session);
+                        listAllDataAvailable(session);
+
                         msg = "Pieza codigo: " + modelPiece.getId() + " modificado Exitosamente";
                     } catch (SQLException ex) {
                         error = ex.getMessage();
@@ -156,8 +161,10 @@ public class pieceController extends HttpServlet {
                 case "delete-piece": {
 
                     try {
-                        pieceDAO.delete(idPiece);
+                        pieceDAO.delete(idPiece.trim());
                         reloadTablePiece(listPieces, session);
+                        listAllDataAvailable(session);
+
                         msg = "Pieza codigo: " + idPiece + " eliminada Exitosamente";
                     } catch (SQLException ex) {
                         error = ex.getMessage();
@@ -173,11 +180,12 @@ public class pieceController extends HttpServlet {
                 break;
                 case "new-type-piece": {
                     try {
-                        modelTypePiece.setNameTypePiece(newType);
+                        modelTypePiece.setNameTypePiece(newType.trim());
                         modelTypePiece.setStock(0);
                         typePieceDAO.create(modelTypePiece);
-                        reloadTypePieceList(listTypePiece, session);
+                        reloadTypePieceList(session);
                         reloadTablePiece(listPieces, session);
+                        listAllDataAvailable(session);
 
                         msg = "Tipo de pieza: " + modelTypePiece.getNameTypePiece() + " creada Exitosamente";
 
@@ -196,7 +204,7 @@ public class pieceController extends HttpServlet {
                 break;
                 case "sort-type-piece": {
                     try {
-                        String typeSort = request.getParameter("input-sort-piece");
+                        String typeSort = request.getParameter("input-sort-piece").trim();
                         listTypePiece = typePieceDAO.sortTypePiece(typeSort);
                         session.setAttribute("listSortAllTypePiece", listTypePiece);
                         msg = "Ordenado  Exitoso";
@@ -215,9 +223,10 @@ public class pieceController extends HttpServlet {
                 case "delete-typePiece": {
 
                     try {
-                        typePieceDAO.delete(idTypePiece);
-                        reloadTypePieceList(listTypePiece, session);
+                        typePieceDAO.delete(idTypePiece.trim());
+                        reloadTypePieceList(session);
                         reloadTablePiece(listPieces, session);
+                        listAllDataAvailable(session);
                         msg = "Typi de Pieza codigo: " + idTypePiece + " eliminada Exitosamente";
                     } catch (SQLException ex) {
                         error = ex.getMessage();
@@ -246,13 +255,19 @@ public class pieceController extends HttpServlet {
         }
     }
 
+    private void listAllDataAvailable(HttpSession session) throws CustomException {
+        pieceDAO pieceDAO = new pieceDAO();
+        List<piece> listPieces = pieceDAO.listAllDataAvailable();
+        session.setAttribute("listAllDataAvailable", listPieces);
+    }
+
     public void reloadTablePiece(List<piece> listPieces, HttpSession session) throws CustomException {
         listPieces = pieceDAO.listAllData();
         session.setAttribute("listAllPieces", listPieces);
     }
 
-    public void reloadTypePieceList(List<typePiece> listTypePiece, HttpSession session) {
-        listTypePiece = typePieceDAO.listAllData();
+    public void reloadTypePieceList(HttpSession session) {
+        List<typePiece> listTypePiece = typePieceDAO.listAllData();
         session.setAttribute("listAllTypePiece", listTypePiece);
     }
 

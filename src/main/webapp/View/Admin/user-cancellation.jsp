@@ -29,11 +29,14 @@
                         <label class="sr-only  text-success">${msg}</label>
                         <label  class="sr-only  text-danger">${err}</label
                         <form class="" action="userController" method="POST">
-                            <table class="table table-hover table-striped bg-light" >
+                            <table class="table table-hover table-striped bg-light mt-3" >
                                 <thead  >
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Tipo</th>
+                                        <th>Estado</th>
+                                        <th>Acccion</th>
+
 
                                     </tr>
                                 </thead>
@@ -42,7 +45,9 @@
                                     <c:forEach var="user" items="${listAllUsers}">
                                         <tr>
                                             <td>${user.getName()}</td>
-                                            <td>${user.getType() == 1 ? 'Ensamblador' : user.getType() == 2 ? 'Vendedor' : user.getType() == 3 ? 'Financiero' : user.getType() == 0 ? 'Cancelado' : ''}</td>
+                                            <td>${user.getType() == 1 ? 'Ensamblador' : user.getType() == 2 ? 'Vendedor' : user.getType() == 3 ? 'Financiero'  : ''}</td>
+                                            <td>${user.getStatus() != 0 ? 'Habilitado' : 'Cancelado'}</td>
+
                                             <td>
                                                 <form action = "userController" method = "POST">
                                                     <input 
@@ -52,17 +57,25 @@
                                                         class="form-control rounded-pill border-1 border-dark  shadow-sm px-4"
                                                         value="${user.getName()}"
                                                         > 
-                                                    
+
                                                     <c:choose>
-                                                        <c:when test="${user.getType() != 0 }">
-                                                         <button type = "submit" name = "action"
-                                                            value = "cancel-user" class="btn btn-outline-danger  text-uppercase rounded-pill shadow-sm ">
-                                                        Cancelar</button>
+                                                        <c:when test="${user.getStatus() != 0 }">
+                                                            <c:choose>
+                                                                <c:when test="${user.getName() != userAttribute}">
+
+                                                                    <button type = "submit" name = "action"
+                                                                            value = "cancel-user" class="btn btn-outline-danger  text-uppercase rounded-pill shadow-sm ">
+                                                                        Cancelar</button>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         </c:when>
                                                         <c:otherwise>
-                                                         <button type = "submit" name = "action"
-                                                            value = "delete-user" class="btn btn-danger  text-uppercase rounded-pill shadow-sm ">
-                                                        Eliminar</button>
+                                                            <button type = "submit" name = "action"
+                                                                    value = "restore-user" class="btn btn-success  text-uppercase rounded-pill shadow-sm ">
+                                                                Restaurar</button>
+
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </form>

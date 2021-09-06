@@ -59,8 +59,8 @@
                                     class="btn btn-light text-uppercase mb-2 rounded-pill shadow-sm ">Ordenar</button>
                         </form>     
                     </div>
- <label for="input-type-piece-select" class="sr-only  text-success">${msg}</label>
-                        <label for="input-type-piece-select" class="sr-only  text-danger">${err}</label>
+ <label for="input-type-piece-select" class="  text-success">${msg}</label>
+                        <label for="input-type-piece-select" class=" text-danger">${err}</label>
 
 
                 </div>

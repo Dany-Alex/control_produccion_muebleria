@@ -121,27 +121,15 @@ public class userController extends HttpServlet {
                     //  request.getRequestDispatcher(adminPiece).forward(request, response);
                     break;
 
-                case "cancel-user": {
-                    try {
-                        user.setName(inputNameUser.trim());
-                        user.setType(0 + "");
-                        userDAO.updateTypeUser(user);
-                        msg = "usuario: " + inputNameUser + " cancelado exitosamente";
-                        reloadUserList(session);
-                    } catch (CustomException ex) {
-                        error = ex.getMessage();
-                    } catch (SQLException ex) {
-                        error = ex.getMessage();
-                    }
-                }
-                session.setAttribute("msg", msg);
-                session.setAttribute("err", error);
+                case "cancel-user":
 
-                request.getRequestDispatcher(userCancellation).forward(request, response);
-                break;
+                    actionUser(session, inputNameUser, 0 + "");
+                    request.getRequestDispatcher(userCancellation).forward(request, response);
+                    break;
 
-                case "delete-user":
-                    //   request.getRequestDispatcher(adminPiece).forward(request, response);
+                case "restore-user":
+                    actionUser(session, inputNameUser, 1 + "");
+                    request.getRequestDispatcher(userCancellation).forward(request, response);
                     break;
 
                 case "back":
@@ -156,6 +144,25 @@ public class userController extends HttpServlet {
 
             }
         }
+    }
+
+    public void actionUser(HttpSession session, String name, String status) {
+        String msg = null, error = null;
+        try {
+            user.setName(name.trim());
+            user.setStatus(status);
+            userDAO.updateTypeUser(user);
+            msg = "usuario: " + name + " cancelado exitosamente";
+            reloadUserList(session);
+        } catch (CustomException ex) {
+            error = ex.getMessage();
+        } catch (SQLException ex) {
+            error = ex.getMessage();
+        }
+
+        session.setAttribute("msg", msg);
+        session.setAttribute("err", error);
+
     }
 
     public void reloadUserList(HttpSession session) throws CustomException {

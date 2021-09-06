@@ -61,6 +61,33 @@ public class pieceDAO {
                 piece.setId(resultSet.getInt(1) + "");
                 piece.setType(resultSet.getString(2));
                 piece.setCost(resultSet.getDouble(3) + "");
+                piece.setAvailable(resultSet.getInt(4) + "");
+                arrayList.add(piece);
+            }
+            resultSet.close();
+            System.out.println((resultSet.isClosed()) ? "Resulset Cerrado" : "Resulset No Cerrado");
+            return arrayList;
+        } catch (Exception e) {
+            throw new CustomException("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
+        } finally {
+            preparedStatement = null;
+        }
+    }
+
+    public List listAllDataAvailable() throws CustomException {
+        ArrayList<piece> arrayList = new ArrayList<piece>();
+        try {
+            String query = "SELECT * FROM " + nombreTabla
+                    + " WHERE utilizado!=1;";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                piece = new piece();
+                piece.setId(resultSet.getInt(1) + "");
+                piece.setType(resultSet.getString(2));
+                piece.setCost(resultSet.getDouble(3) + "");
+                piece.setAvailable(resultSet.getInt(4) + "");
                 arrayList.add(piece);
             }
             resultSet.close();
@@ -183,6 +210,8 @@ public class pieceDAO {
                 piece.setId(resultSet.getInt(1) + "");
                 piece.setType(resultSet.getString(2));
                 piece.setCost(resultSet.getDouble(3) + "");
+                piece.setAvailable(resultSet.getInt(4) + "");
+
             }
             resultSet.close();
             System.out.println((resultSet.isClosed()) ? "Resulset Cerrado" : "Resulset No Cerrado");
@@ -195,6 +224,19 @@ public class pieceDAO {
 
     }
 
+    public void executeUpdate() throws SQLException {
+        String query = "UPDATE " + nombreTabla
+                + " SET tipo_piezas=?,costo=?,utilizado=?"
+                + " WHERE id_pieza = '" + piece.getId() + "';";
+
+        preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, piece.getType());
+        preparedStatement.setDouble(2, piece.getCost());
+        preparedStatement.setInt(3, piece.getAvailable());
+        preparedStatement.executeUpdate();
+    }
+
     /**
      * *
      *
@@ -205,17 +247,41 @@ public class pieceDAO {
      */
     public void update(piece piece) throws SQLException, CustomException {
         try {
+            executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new CustomException("No puede modificar el id de la pieza");
+        } catch (SQLException e) {
+            throw new CustomException("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
+        } finally {
+            preparedStatement = null;
+        }
+    }
 
-            String query = "UPDATE " + nombreTabla
-                    + " SET tipo_piezas=?,costo=?"
-                    + " WHERE id_pieza = '" + piece.getId() + "';";
+    public void updateAviable(piece piece) throws SQLException, CustomException {
+        try {
+            typePiece = new typePiece();
+            typePiece.setNameTypePiece(piece.getType());
 
-            preparedStatement = connection.prepareStatement(query);
+            executeUpdate();
 
-            preparedStatement.setString(1, piece.getType());
-            preparedStatement.setDouble(2, piece.getCost());
-            preparedStatement.executeUpdate();
+            typePieceDAO.updateStockUseOrDelete(typePiece, 1);
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new CustomException("No puede modificar el id de la pieza");
+        } catch (SQLException e) {
+            throw new CustomException("Consulta " + nombreTabla + " Error: " + e.getMessage().replace("'", ""));
+        } finally {
+            preparedStatement = null;
+        }
+    }
 
+    public void updateAviableRollback(piece piece) throws SQLException, CustomException {
+        try {
+            typePiece = new typePiece();
+            typePiece.setNameTypePiece(piece.getType());
+
+            executeUpdate();
+
+            typePieceDAO.updateStockInsert(typePiece, 1);
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new CustomException("No puede modificar el id de la pieza");
         } catch (SQLException e) {

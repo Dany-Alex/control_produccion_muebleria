@@ -4,26 +4,17 @@
     Author     : Artist
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-
-
-<footer>
-    <div class=" container-fluid bg-transparent text-light">
-        <div class="row">
-         
-
-        <p class="footer mt-2 text-muted">
-            Todos los derechos reservados Â© 2021 Â· 
-            <small><a href="https://github.com/Dany-Alex">Dany-Alex</a></small>
-
-        </p>
-
+<footer class="bg-transparent bg-gradient">
+    <div class="container-fluid bg-transparent text-light">
+        <div class="row ">
+            <p class="footer mt-2 text-muted">
+                Code <i class="fas fa-code"></i> &  Bugs <i class="fas fa-bug"></i> · 
+                <small><a class="text-muted" href="https://github.com/Dany-Alex">Dany-Alex</a></small>
+                · Todos los derechos reservados © 2021
+            </p>
         </div>
     </div>
 
 
 
 </footer>
-</body>
-</html>

@@ -20,15 +20,20 @@
     }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:include page="/Includes/header-sale.jsp"/>
 
+ <jsp:include page="/Includes/header-sale.jsp"/>    
 <div class="img-bg-wrapper" >
     <div class="overlay-img-bg-wrapper " >
+        
+   
+        
         <iframe name="frameMenuSale" class="sizeAuto" >
             <div class=" text-center text-light d-flex justify-content-center">
 
             </div> 
         </iframe>
+        
+        
     </div>
 </div>
 

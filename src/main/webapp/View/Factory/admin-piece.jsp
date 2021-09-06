@@ -29,6 +29,9 @@
                     <div class=" col-sm-3 mx-4 mb-3">
                         <div class="form-group" >
 
+                            <label for="input-type-piece-select" class="  text-success">${msg}</label>
+                            <label for="input-type-piece-select" class="  text-danger">${err}</label>
+
                             <!-- Button trigger modal -->
                             <button type="button" 
                                     class="btn btn-light text-uppercase mb-2 rounded-pill shadow-sm mt-4 mb-3" 
@@ -48,7 +51,7 @@
                                         </div>
 
                                         <div class="row justify-content-center align-items-center text-center">
-                                            <div class="col-lg-10">
+                                            <div class="col-lg-10 ">
                                                 <table class="table table-hover table-striped bg-light mt-3" >
                                                     <thead>
                                                         <tr>
@@ -102,7 +105,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="modal-footer align-items-center justify-content-center">
+                                            <div class="modal-footer align-items-center justify-content-center ">
                                                 <button type="submit" name="action" 
                                                         value="new-type-piece" 
                                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Crear nuevo tipo de pieza"
@@ -112,6 +115,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <form class=" mb-3 " action="pieceController" method="POST">
 
                                 <label for="input-type-piece-select" class="  text-light">Tipo Pieza</label>
@@ -148,15 +152,18 @@
                                         <th>Codigo</th>
                                         <th>Tipo</th>
                                         <th>Costo</th>
+                                     
+
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach var="piece" items="${listAllPieces}">
+                                    <c:forEach var="piece" items="${listAllDataAvailable}">
                                         <tr>
                                             <td>${piece.getId()}</td>
                                             <td>${piece.getType()}</td>
                                             <td>${piece.getCost()}</td>
+                                             
 
                                             <td>
                                                 <form action="pieceController" method="POST">
@@ -172,8 +179,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <label for="input-type-piece-select" class="  text-success">${msg}</label>
-                        <label for="input-type-piece-select" class="  text-danger">${err}</label>
+
 
 
                     </div>

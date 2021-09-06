@@ -47,6 +47,7 @@ public class userDAO {
                 user.setName(resultSet.getString(1));
                 user.setPassword(resultSet.getString(2));
                 user.setType(resultSet.getInt(3) + "");
+                user.setStatus(resultSet.getInt(4) + "");
                 arrayList.add(user);
             }
             resultSet.close();
@@ -72,6 +73,7 @@ public class userDAO {
                 user.setName(resultSet.getString(1));
                 user.setPassword(resultSet.getString(2));
                 user.setType(resultSet.getInt(3) + "");
+                user.setStatus(resultSet.getInt(4) + "");
                 arrayList.add(user);
             }
             resultSet.close();
@@ -137,10 +139,10 @@ public class userDAO {
     public void updateTypeUser(user user) throws SQLException, CustomException {
         try {
             String query = "UPDATE " + nombreTabla
-                    + " SET tipo=?"
+                    + " SET estado=?"
                     + " WHERE nombre = '" + user.getName() + "';";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, user.getType());
+            preparedStatement.setInt(1, user.getStatus());
             preparedStatement.executeUpdate();
 
         } catch (SQLIntegrityConstraintViolationException e) {
@@ -184,7 +186,7 @@ public class userDAO {
         try {
 
             String query = "SELECT * FROM " + nombreTabla
-                    + " WHERE nombre =? and password =? and tipo =?;";
+                    + " WHERE nombre =? and password =? and tipo =? and estado =1;";
 
             preparedStatement = connection.prepareStatement(query);
 

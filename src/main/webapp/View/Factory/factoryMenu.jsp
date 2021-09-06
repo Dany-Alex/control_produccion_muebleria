@@ -18,14 +18,19 @@
 <jsp:include page="/Includes/header-factory.jsp"/>
 
 <div class="img-bg-wrapper">
-
     <div class="overlay-img-bg-wrapper " >
+        
+        
+        
         <iframe name="frameMenu" class="sizeAuto" >
             <div class=" text-center text-light d-flex justify-content-center">
                 <h1 class="card-heading display-2 text-uppercase mt-5"><b>Area de fábrica</b></h1>  
             </div> 
         </iframe>
+        
+     <jsp:include page="/Includes/footer-factory.jsp"/>   
     </div>
 </div>
 
-<jsp:include page="/Includes/footer-factory.jsp"/>
+</body>
+</html>

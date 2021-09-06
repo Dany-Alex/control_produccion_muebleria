@@ -88,6 +88,7 @@
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Tipo</th>
+                                            <th>Estado</th>
 
                                         </tr>
                                     </thead>
@@ -96,7 +97,9 @@
                                         <c:forEach var="user" items="${listAllUsers}">
                                             <tr>
                                                 <td>${user.getName()}</td>
-                                                <td>${user.getType() == 1 ? 'Ensamblador' : user.getType() == 2 ? 'Vendedor' : user.getType() == 3 ? 'Financiero' : user.getType() == 0 ? 'Cancelado' : ''}</td>
+                                                <td>${user.getType() == 1 ? 'Ensamblador' : user.getType() == 2 ? 'Vendedor' : user.getType() == 3 ? 'Financiero' : ''}</td>
+                                                <td>${user.getStatus() != 0 ? 'Habilitado' : 'Cancelado'}</td>
+                                                
                                             </tr>
                                         </c:forEach>
                                     </tbody>

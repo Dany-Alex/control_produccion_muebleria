@@ -24,23 +24,28 @@ public class assemblagePiece {
     }
 
     public int parseInt(String string) throws CustomException {
-        int amountPieces;
+        int idTypePiece;
         try {
-            amountPieces = Integer.parseInt(string);
+            idTypePiece = Integer.parseInt(string);
         } catch (NumberFormatException e) {
-            throw new CustomException("Hay un problema con el id ingresado: " + string);
+            throw new CustomException("Hay un problema con el dato ingresado: " + string);
         } catch (NullPointerException e) {
-            throw new CustomException("Hay un problema con el id ingresado: es nulo");
+            throw new CustomException("Hay un problema con el dato ingresado: es nulo");
         }
-        return amountPieces;
+        return idTypePiece;
     }
 
     public String getNamefurniture() {
         return namefurniture;
     }
 
-    public void setNamefurniture(String namefurniture) {
-        this.namefurniture = namefurniture;
+    public void setNamefurniture(String namefurniture) throws CustomException {
+
+        if (validateTypeChars(namefurniture)) {
+            this.namefurniture = namefurniture;
+        } else {
+            throw new CustomException("el tipo: " + namefurniture + " no se puede crear, porque solo se pueden crear tipos que incluyan solo letras");
+        }
     }
 
     public String getTypePiece() {
@@ -51,7 +56,7 @@ public class assemblagePiece {
         if (validateTypeChars(typePiece)) {
             this.typePiece = typePiece;
         } else {
-            throw new CustomException("el tipo: " + typePiece + " no se puede crear, porque solo se pueden crear tipos que incluyasn solo letras");
+            throw new CustomException("el tipo: " + typePiece + " no se puede crear, porque solo se pueden crear tipos que incluyan solo letras");
         }
     }
 

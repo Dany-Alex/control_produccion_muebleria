@@ -300,6 +300,7 @@ public class txtFileManager {
                                         String nameFurniture = structureTmp[0].replace("\"", ""),
                                                 nameUser = structureTmp[1].replace("\"", ""),
                                                 assemblyDate = structureTmp[2].replace("\"", "");
+
                                         if (validateDate(assemblyDate)) {
                                             String assemblyDateFormat = dateFormat(assemblyDate);
                                             System.out.println("datos: " + nameFurniture + " - " + nameUser + " - " + assemblyDateFormat);

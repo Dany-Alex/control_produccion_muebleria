@@ -59,8 +59,9 @@
                             <tr>
                                 <th>Tipo</th>
                                 <th>Precio</th>
+                                <!-- comment 
                                 <th>Acciones</th>
-
+                                -->
                             </tr>
                         </thead>
                         <tbody>
@@ -68,7 +69,7 @@
                                 <tr>
                                     <td>${furnitureType.getName()}</td>
                                     <td>${furnitureType.getPrice()}</td>
-
+                                    <!-- comment 
                                     <td>
                                         <form action="pieceController" method="POST">
                                             <input type="hidden" name="id-piece" value="${furnitureType.getName()}">
@@ -78,6 +79,7 @@
                                                     value="delete-piece" class="btn btn-danger  text-uppercase  rounded-pill shadow-sm ">Eliminar</button>
                                         </form>
                                     </td>
+                                     -->
                                 </tr>
                             </c:forEach>
                         </tbody>

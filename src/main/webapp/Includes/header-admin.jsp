@@ -11,10 +11,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="/Includes/resources.jsp"/>
         <title>Area de fábrica - Mi Muebleria</title>
-       <%
+        <%
             //session=request.getSession();
-           response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
-           response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+            response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
             response.setHeader("Expires", "0"); // Proxies.
 
             if (session.getAttribute("userAttribute") == null) {
@@ -42,39 +42,39 @@
                         <li class="nav-item dropdown ">
                             <a class="btn btn-outline-light border-0 text-uppercase rounded-pill dropdown-toggle mx-2" 
                                data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chart-bar"></i> Reporte</a>
-                            <div class="dropdown-menu bg-danger  text-center text-truncate">
+                            <div class="dropdown-menu bg-danger border-4 border-light text-white text-center text-truncate">
                                 <div class="btn-group-vertical mx-3">
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill " 
                                        href="adminPrincipalController?menu-admin=sales-report" target="frameMenuAdmin">
-                                       <i class="fas fa-chart-line"></i> Ventas 
+                                        <i class="fas fa-chart-line"></i> Ventas 
                                     </a>
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill " 
                                        href="adminPrincipalController?menu-admin=return-sales-report" target="frameMenuAdmin">
-                                       <i class="fas fa-cart-arrow-down"></i> Devoluciones
+                                        <i class="fas fa-cart-arrow-down"></i> Devoluciones
                                     </a>
 
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill " 
                                        href="adminPrincipalController?menu-admin=profit-report" target="frameMenuAdmin">
-                                       <i class="fas fa-coins"></i> Ganancias 
+                                        <i class="fas fa-coins"></i> Ganancias 
                                     </a>
 
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill " 
                                        href="adminPrincipalController?menu-admin=user-most-sales-report" target="frameMenuAdmin">
-                                      <i class="fas fa-file-invoice"></i>  usuario con más ventas 
+                                        <i class="fas fa-file-invoice"></i>  usuario con más ventas 
                                     </a>
 
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill " 
                                        href="adminPrincipalController?menu-admin=user-more-profit-report" target="frameMenuAdmin">
-                                      <i class="fas fa-file-invoice"></i>  usuario con más ganancias
+                                        <i class="fas fa-file-invoice"></i>  usuario con más ganancias
                                     </a>
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill " 
                                        href="adminPrincipalController?menu-admin=best-selling-furniture-report" target="frameMenuAdmin">
-                                       <i class="fas fa-file-invoice"></i> mueble más vendido
+                                        <i class="fas fa-file-invoice"></i> mueble más vendido
                                     </a>
 
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill " 
                                        href="adminPrincipalController?menu-admin=least-sold-furniture-report" target="frameMenuAdmin">
-                                       <i class="fas fa-file-invoice"></i> mueble menos vendido
+                                        <i class="fas fa-file-invoice"></i> mueble menos vendido
                                     </a>
 
                                 </div>
@@ -84,7 +84,7 @@
                         <li class="nav-item dropdown ">
                             <a class="btn btn-outline-light border-0 text-uppercase rounded-pill dropdown-toggle mx-2" 
                                data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i> Creación</a>
-                            <div class="dropdown-menu bg-danger  text-center text-truncate">
+                            <div class="dropdown-menu bg-danger border-4 border-light text-white text-center text-truncate">
                                 <div class="btn-group-vertical mx-3">
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill " 
                                        href="adminPrincipalController?menu-admin=creation-new-user" target="frameMenuAdmin">
@@ -105,7 +105,7 @@
                         <li class="nav-item dropdown ">
                             <a class="btn btn-outline-light border-0 text-uppercase rounded-pill dropdown-toggle mx-2" 
                                data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-times"></i> cancelación</a>
-                            <div class="dropdown-menu bg-danger  text-center text-truncate">
+                            <div class="dropdown-menu bg-danger border-4 border-light text-white text-center text-truncate">
                                 <div class="btn-group-vertical">
                                     <a class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill " 
                                        href="adminPrincipalController?menu-admin=user-cancellation" target="frameMenuAdmin">
@@ -122,30 +122,7 @@
 
                         </li>
                     </ul>
-                    <ul  class="navbar-nav">
-                        <li  class="nav-item  dropstart"> 
-                            <a class="btn btn-outline-light border-0 rounded-pill " 
-                               href="#" id="navbarDropdownMenuLinkFactory" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <h5 class="mb-0 text-uppercase nav-user-name"> ${userAttribute} </h5> 
-                            </a>
-                            <div class="dropdown-menu bg-danger text-white text-center text-truncate" aria-labelledby="navbarDropdownMenuLinkFactory">
-                                <div class="nav-user-info mb-2 ">
-                                    <img src="https://img.icons8.com/ios-glyphs/24/000000/user--v1.png" alt="" class="user-avatar-md rounded-circle bg bg-light">
-                                </div> 
-                                <div class="nav-user-info mb-2 ">
-                                    <i>${userAttribute} </i>
-                                </div> 
-                                <form action="loginController" method="POST">
-                                    <button 
-                                        type="submit" 
-                                        name="action" 
-                                        value="logout" 
-                                        class="btn btn-outline-light border-0 text-uppercase mb-2 rounded-pill text-truncate mx-2">
-                                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesion</button>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
+                    <jsp:include page="/Includes/nav-user-info.jsp"/>
                 </div>
             </div>
         </nav>

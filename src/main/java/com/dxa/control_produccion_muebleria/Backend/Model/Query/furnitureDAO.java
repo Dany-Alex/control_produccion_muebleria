@@ -7,6 +7,7 @@ package com.dxa.control_produccion_muebleria.Backend.Model.Query;
 
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.furniture;
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.piece;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.user;
 import com.dxa.control_produccion_muebleria.Backend.Model.Connection.DBconnection;
 import java.sql.Connection;
@@ -85,4 +86,5 @@ public class furnitureDAO {
         }
         return true;
     }
+
 }

@@ -10,7 +10,7 @@ import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.exce
 public class user {
 
     private String name, password;
-    private int type;
+    private int type, status;
 
     public user(String name, String password, int type) {
         this.name = name;
@@ -19,6 +19,14 @@ public class user {
     }
 
     public user() {
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) throws CustomException {
+        this.status = parseInt(status);
     }
 
     public String getName() {

@@ -7,13 +7,19 @@ package com.dxa.control_produccion_muebleria.Backend.Controller;
 
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.CustomException;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.exceptionPiece;
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.assemblagePiece;
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.assembleFurniture;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.furniture;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.piece;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.sortPiece;
 import com.dxa.control_produccion_muebleria.Backend.Model.Clases.typePiece;
+import com.dxa.control_produccion_muebleria.Backend.Model.Clases.user;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.assemblagePieceDAO;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.assembleFornitureDAO;
 import com.dxa.control_produccion_muebleria.Backend.Model.Query.furnitureDAO;
 import com.dxa.control_produccion_muebleria.Backend.Model.Query.pieceDAO;
 import com.dxa.control_produccion_muebleria.Backend.Model.Query.typePieceDAO;
+import com.dxa.control_produccion_muebleria.Backend.Model.Query.userDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -68,8 +74,9 @@ public class factoryPrincipalController extends HttpServlet {
                     try {
                         session.setAttribute("msg", "");
                         session.setAttribute("err", "");
-                        reloadPieceList(session);
+                        reloadPieceAdmin(session);
                         reloadFurnitureTypeList(session);
+                        reloadListlistAssemblagePiece(session);
                     } catch (CustomException ex) {
                         session.setAttribute("err", ex.getMessage());
                     }
@@ -77,15 +84,38 @@ public class factoryPrincipalController extends HttpServlet {
                 request.getRequestDispatcher(assembleFurniture).forward(request, response);
                 break;
 
-                case "register-furniture":
-                    request.getRequestDispatcher(registerFurniture).forward(request, response);
-                    break;
-                case "info-furniture":
-                    request.getRequestDispatcher(infoFurniture).forward(request, response);
-                    break;
+                case "register-furniture": {
+                    try {
+
+                        session.setAttribute("msg", "");
+                        session.setAttribute("err", "");
+
+                        listAllDataAvailable(session);
+                        reloadFurnitureTypeList(session);
+                        reloadUserList(session);
+                    } catch (CustomException ex) {
+                        session.setAttribute("err", ex.getMessage());
+                    }
+                }
+
+                request.getRequestDispatcher(registerFurniture).forward(request, response);
+                break;
+
+                case "info-furniture": {
+                    try {
+                        reloadSortDateAssembleFurnitureList(session);
+                    } catch (CustomException ex) {
+                        session.setAttribute("err", ex.getMessage());
+                    }
+                }
+                request.getRequestDispatcher(infoFurniture).forward(request, response);
+                break;
+
                 case "admin-piece": {
                     try {
                         reloadPieceAdmin(session);
+                        listAllDataAvailable(session);
+
                     } catch (CustomException ex) {
                         session.setAttribute("err", ex.getMessage());
                     }
@@ -129,6 +159,24 @@ public class factoryPrincipalController extends HttpServlet {
         session.setAttribute("listAllPieces", listPieces);
     }
 
+    public void reloadUserList(HttpSession session) throws CustomException {
+        userDAO userDAO = new userDAO();
+        List<user> listUsers = userDAO.listAllData();
+        session.setAttribute("listAllUsers", listUsers);
+    }
+
+    private void listAllDataAvailable(HttpSession session) throws CustomException {
+        pieceDAO pieceDAO = new pieceDAO();
+        List<piece> listPieces = pieceDAO.listAllDataAvailable();
+        session.setAttribute("listAllDataAvailable", listPieces);
+    }
+
+    public void reloadListlistAssemblagePiece(HttpSession session) throws CustomException {
+        assemblagePieceDAO assemblagePieceDAO = new assemblagePieceDAO();
+        List<assemblagePiece> listAssemblagePiece = assemblagePieceDAO.listAllData();
+        session.setAttribute("listAllAssemblagePiece", listAssemblagePiece);
+    }
+
     public void reloadFurnitureTypeList(HttpSession session) throws CustomException {
         furnitureDAO furnitureDAO = new furnitureDAO();
         List<furniture> listFurnitureType = furnitureDAO.listAllData();
@@ -140,6 +188,17 @@ public class factoryPrincipalController extends HttpServlet {
         session.setAttribute("err", "");
         List<typePiece> listSortPiece = typePieceDAO.sortTypePiece("MyMn");
         session.setAttribute("listSortAllTypePiece", listSortPiece);
+    }
+
+    public void reloadSortDateAssembleFurnitureList(HttpSession session) throws CustomException {
+        session.setAttribute("msg", "");
+        session.setAttribute("err", "");
+        assembleFornitureDAO assembleFornitureDAO = new assembleFornitureDAO();
+        List<assembleFurniture> listSortDateAssembleFurniture = assembleFornitureDAO.sortJoinDate("MyMn");
+        session.setAttribute("listSortAllAssembleFurniture", listSortDateAssembleFurniture);
+        for (assembleFurniture furniture1 : listSortDateAssembleFurniture) {
+            System.out.println("reloadSortDateAssembleFurnitureList ---" + furniture1.toString());
+        }
     }
 
     /**

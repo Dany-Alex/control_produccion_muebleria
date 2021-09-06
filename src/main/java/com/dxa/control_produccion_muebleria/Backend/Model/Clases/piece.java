@@ -9,7 +9,7 @@ import com.dxa.control_produccion_muebleria.Backend.Model.Clases.Exceptions.exce
  */
 public class piece {
 
-    private int id;
+    private int id, available;
     private String type;
     private double cost;
 
@@ -17,6 +17,14 @@ public class piece {
         this.type = type;
         this.cost = cost;
 
+    }
+
+    public int getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(String available) throws CustomException {
+        this.available = parseInt(available);
     }
 
     public int getId() {
@@ -85,9 +93,9 @@ public class piece {
         try {
             id = Integer.parseInt(idPiece);
         } catch (NumberFormatException e) {
-            throw new CustomException("Hay un problema con el id ingresado: " + idPiece);
+            throw new CustomException("Hay un problema con el dato ingresado: " + idPiece);
         } catch (NullPointerException e) {
-            throw new CustomException("Hay un problema con el id ingresado: es nulo");
+            throw new CustomException("Hay un problema con el dato ingresado: es nulo");
         }
         return id;
     }
